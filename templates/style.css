@@ -1,0 +1,43 @@
+html{
+    font-size: 20px;
+    font-family: 'Grill Sanas', sans-serif;
+    background-color:rgb(2, 2, 2);
+    color:#FEFEFE;
+}
+
+h1{
+    font-size:30px;
+    font-weight: bolder;
+}
+.box {
+    border: 2px solid purple;
+    padding: 10px;
+    margin: 20px;
+}
+p{
+    font-size: 20px;
+}
+.sõnumid {
+    border: 1px solid #b1b1b1;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+body {
+    min-height: 100vh;
+    position: relative;
+}
+
+.content {
+    padding-bottom: 50px;
+}
+
+footer {
+    text-align: center;
+    background-color: #333;
+    color: white;
+    padding: 40px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}

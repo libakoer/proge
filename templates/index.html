@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arutlus foorum</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="box">
+        <h1>Tere tulemast foorumisse</h1>
+        <p>Kirjeldus kirjeldus kirjeldus kirjeldus</p>
+    </div>
+    <!-- Sõnumite kuvamise ala -->
+    <div id="sõnumid">
+        <!-- Sõnumite sisu kuvatakse siia -->
+    </div>
+
+    <!-- Sõnumi postitamise vorm -->
+    <form id="sõnumiVorm">
+        <input type="text" id="kasutajanimi" placeholder="Sinu nimi" required>
+        <textarea id="sõnumitekst" placeholder="Sisesta sõnum" required></textarea>
+        <button type="submit">Postita</button>
+    </form>
+
+    <!-- Footer -->
+<footer>
+    <span>&copy; 2023 Kätryn Varkel ja Artur Tamm</span>
+</footer>
+
+    <script>
+        // Sõnumite massiiv
+        var sõnumid = [];
+
+        // Funktsioon sõnumite kuvamiseks
+        function kuvaaSõnumid() {
+            var sõnumiteKonteiner = document.getElementById("sõnumid");
+            sõnumiteKonteiner.innerHTML = "";
+
+            sõnumid.forEach(function (sõnum) {
+                var sõnumiElement = document.createElement("div");
+                sõnumiElement.classList.add("message");
+                sõnumiElement.innerHTML = `<strong>${sõnum.kasutaja}:</strong> ${sõnum.tekst}`;
+                sõnumiteKonteiner.appendChild(sõnumiElement);
+            });
+        }
+
+        // Sõnumi postitamise vormi käsitlemine
+        var sõnumiVorm = document.getElementById("sõnumiVorm");
+        sõnumiVorm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var kasutajaNimi = document.getElementById("kasutajanimi").value;
+            var sõnumitekst = document.getElementById("sõnumitekst").value;
+            sõnumid.push({ kasutaja: kasutajaNimi, tekst: sõnumitekst });
+            kuvaaSõnumid();
+            document.getElementById("kasutajanimi").value = "";
+            document.getElementById("sõnumitekst").value = "";
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Foorum</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            display: none; /* Initially hide the loader */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <button id="captureButton" style="background-color: #0074D9; color: #FFFFFF; font-size: 50px; padding: 10px 20px; border: none; cursor: pointer; transition: background-color 0.3s;">Logi sisse:</button>
+    <div id="loader" class="loader"></div>
+    <video id="video" style="display: none;" autoplay></video>
+    <script>
+        document.getElementById('captureButton').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            var button = document.getElementById('captureButton');
+            var loader = document.getElementById('loader');
+            var video = document.getElementById('video');
+
+            button.style.display = 'none'; // Hide the button
+            loader.style.display = 'block'; // Show the loader
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    video.play();
+
+                    setTimeout(function() {
+                        var canvas = document.createElement('canvas');
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                        var imageData = canvas.toDataURL('image/png').split(',')[1];
+
+                        var formData = new FormData();
+                        formData.append('action1', 'Logi sisse:');
+                        formData.append('image', imageData);
+
+                        fetch('/', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => {
+                            console.log('Image sent to Flask');
+                            window.location.href = '/foorum';
+                        })
+                        .catch(error => {
+                            console.error('Error sending image to Flask:', error);
+                        });
+
+                        video.srcObject.getTracks().forEach(track => track.stop());
+                        video.style.display = 'none'; // Hide the video after capturing image
+                    }, 1000);
+                })
+                .catch(function(error) {
+                    console.error('Error accessing camera:', error);
+                });
+        });
+    </script>
+</body>
+</html>
