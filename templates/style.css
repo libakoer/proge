@@ -11,25 +11,58 @@ h1{
 }
 .box {
     border: 2px solid purple;
-    padding: 10px;
+    padding: 20px;
     margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgb(220, 36, 220, 0.5);
 }
 p{
     font-size: 20px;
 }
 .sõnumid {
     border: 1px solid #b1b1b1;
+    padding: 20px;
+    margin: 20px 0;
+}
+#sõnumiVorm {
+    background-color: #f2f2f2;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#kasutajanimi,
+#sõnumitekst {
+    width: 100%;
     padding: 10px;
-    margin: 10px 0;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
 }
 
 body {
     min-height: 100vh;
     position: relative;
+    margin: 0;
 }
 
 .content {
-    padding-bottom: 50px;
+    padding-bottom: 70px;
 }
 
 footer {
