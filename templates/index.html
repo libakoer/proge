@@ -148,7 +148,6 @@
 
     <!-- Sõnumi postitamise vorm -->
     <form id="sõnumiVorm">
-        <input type="text" id="kasutajanimi" placeholder="Sinu nimi" required>
         <textarea id="sõnumitekst" placeholder="Sisesta sõnum" required></textarea>
         <button type="button" id="valiEmojiNupp" onclick="toggleEmojiPopup()">Vali emoji</button>
         <button type="submit">Postita</button>
@@ -205,9 +204,9 @@
         var sõnumiVorm = document.getElementById("sõnumiVorm");
         sõnumiVorm.addEventListener("submit", function (e) {
             e.preventDefault();
-            var kasutajaNimi = document.getElementById("kasutajanimi").value;
+            var kasutajaNimi = "{{ kasutaja1 }}";
             var sõnumitekst = document.getElementById("sõnumitekst").value;
-            if (!kasutajaNimi || !sõnumitekst) {
+            if (!sõnumitekst) {
                 alert("Palun täitke kõik väljad");
                 return;
             }

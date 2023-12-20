@@ -17,6 +17,8 @@ TEMPLATES_AUTO_RELOAD = True
 
 def sessions():
     print("Received a request")
+    if request.method == 'POST' and 'registreeri' in request.form:
+        return redirect(url_for("regi"))
     if request.method == 'POST':
         if 'action1' in request.form and request.form['action1'] == 'Logi sisse:':
             image_data = request.form.get('image')
@@ -40,13 +42,47 @@ def foorum():
         try:
             if "Kasutaja" in session and session["Kasutaja"]!="0":
                 print(session["Kasutaja"])
+                kasutaja1=session["Kasutaja"]
                 session.pop("Kasutaja")
-                return render_template("index.html")
+                return render_template("index.html", kasutaja1=kasutaja1)
             else:
-                print(session["Kasutaja"])
+                kasutaja1=session["kasutaja"]
                 return render_template("keeld.html")
         except:
             return render_template("keeld.html")
+@app.route("/regi", methods=['GET', 'POST'])
+def regi():
+    error = None
+    if request.method == 'POST':
+        file=open("pildid.txt","r",encoding="utf-8")
+        nimi={}
+        koik=[]
+        nimi_ei_ole_olemas=0
+        for i in file:
+            koik.append(i)
+            i=i.strip("\n").split(" ")
+            nimi[i[0]]=i[1]
+        file.close()
+        kasutaja= request.form['username']
+        if " " in kasutaja:
+            return render_template('reg.html', error="Kasutrajanimi ei tohi omada tühikuid")
+        imgur=request.form['password']
+        if kasutaja in nimi:
+            error = 'Nimi on juba võetud'
+        else:
+            uus_nimi=[kasutaja,imgur]
+            nimi_ei_ole_olemas=1
+            error="Registreeritud"
+        file=open("pildid.txt","w",encoding="utf-8")
+        for i in koik:
+            file.write(i)
+            print(i)
+        if nimi_ei_ole_olemas==1:
+            file.write("\n"+uus_nimi[0]+" "+uus_nimi[1])
+        file.close()
+        if error=="Registreeritud":
+            return redirect(url_for("sessions"))
+    return render_template('reg.html', error=error)
 
 
 if __name__ == '__main__':
