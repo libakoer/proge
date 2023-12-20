@@ -4,12 +4,142 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arutlus foorum</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <style>
+        html{
+            font-size: 20px;
+            font-family: 'Grill Sanas', sans-serif;
+            background-color:rgb(2, 2, 2);
+            color:#FEFEFE;
+        }
+
+        body {
+            min-height: 100vh;
+            position: relative;
+            margin: 0;
+            width: 100%;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        } 
+
+        h1{
+            font-size:30px;
+            font-weight: bolder;
+        }
+        @media only screen and (max-width: 600px) {
+            /* Stiilid ekraanilaiusele kuni 600px */
+            body {
+                font-size: 16px;
+            }
+        }
+        .box {
+            border: 2px solid purple;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgb(220, 36, 220, 0.5);
+        }
+        p{
+            font-size: 16px;
+        }
+        #sõnumid {
+            border: 1px solid black;
+            background-color: rgb(0, 0, 0);
+            padding: 0px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: whitesmoke;
+            color: #333;
+        }
+
+        .message strong {
+            color: #333;
+        }
+
+        .message:hover {
+            background-color: #e0e0e0;
+        }
+        #sõnumiVorm {
+            background-color: whitesmoke;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #kasutajanimi,
+        #sõnumitekst {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: purple;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #emojiPopup {
+            display: none;
+            position: absolute;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            z-index: 1000;
+        }
+
+        #emojiPopup button {
+            cursor: pointer;
+            margin: 5px;
+            font-size: 18px;
+        }
+        #emojiPopup button:hover {
+            color: rgb(77, 4, 77);
+        }
+
+        button:hover {
+            background-color: rgb(77, 4, 77);
+        }
+
+        .content {
+            padding-bottom: 70px;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 40px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <div class="box">
-        <h1>Tere tulemast foorumisse</h1>
-        <p>Kirjeldus kirjeldus kirjeldus kirjeldus</p>
+        <h1>Tere tulemast foorumisse!</h1>
+        <p>Näotuvastusega foorumi eesmärgiks on vähendada anonüümseid kasutajaid ning pakkuda isikupärastamatut ja turvalist kogemust foorumikülastajatele.</p>
     </div>
     <!-- Sõnumite kuvamise ala -->
     <div id="sõnumid">
@@ -20,15 +150,42 @@
     <form id="sõnumiVorm">
         <input type="text" id="kasutajanimi" placeholder="Sinu nimi" required>
         <textarea id="sõnumitekst" placeholder="Sisesta sõnum" required></textarea>
+        <button type="button" id="valiEmojiNupp" onclick="avaEmojiPopup()">Vali emoji</button>
         <button type="submit">Postita</button>
     </form>
 
+    <div id="emojiPopup">
+        <button onclick="lisadaEmoji('😊')">😊</button>
+        <button onclick="lisadaEmoji('👍')">👍</button>
+        <button onclick="lisadaEmoji('👎')">👎</button>
+        <button onclick="lisadaEmoji('❤️')">❤️</button>
+    </div>
     <!-- Footer -->
-<footer>
-    <span>&copy; 2023 Kätryn Varkel ja Artur Tamm</span>
-</footer>
+    <footer>
+        <span>&copy; 2023 Kätryn Varkel ja Artur Tamm</span>
+    </footer>
 
     <script>
+        // Emoji lisamise funktsioon
+        function lisadaEmoji(emoji) {
+            var sõnumitekstElement = document.getElementById("sõnumitekst");
+            sõnumitekstElement.value += emoji;
+            sulgeEmojiPopup();
+        }
+
+        // Emoji pop-upi avamine
+        function avaEmojiPopup() {
+            var emojiPopup = document.getElementById("emojiPopup");
+            emojiPopup.style.display = "block";
+            // Saab lisada täiendavaid stiile või animatsioone avamiseks
+        }
+
+        // Emoji pop-upi sulgemine
+        function sulgeEmojiPopup() {
+            var emojiPopup = document.getElementById("emojiPopup");
+            emojiPopup.style.display = "none";
+        }
+
         // Sõnumite massiiv
         var sõnumid = [];
 
@@ -43,6 +200,9 @@
                 sõnumiElement.innerHTML = `<strong>${sõnum.kasutaja}:</strong> ${sõnum.tekst}`;
                 sõnumiteKonteiner.appendChild(sõnumiElement);
             });
+
+            // Automaatne kerimine allapoole
+            sõnumiteKonteiner.scrollTop = sõnumiteKonteiner.scrollHeight;
         }
 
         // Sõnumi postitamise vormi käsitlemine
@@ -52,29 +212,22 @@
             var kasutajaNimi = document.getElementById("kasutajanimi").value;
             var sõnumitekst = document.getElementById("sõnumitekst").value;
             if (!kasutajaNimi || !sõnumitekst) {
-            alert("Palun täitke kõik väljad");
-            return;
+                alert("Palun täitke kõik väljad");
+                return;
             }
+
             sõnumid.push({ kasutaja: kasutajaNimi, tekst: sõnumitekst });
             kuvaaSõnumid();
+            
             document.getElementById("kasutajanimi").value = "";
             document.getElementById("sõnumitekst").value = "";
         });
-        // Sõnumite kuvamise funktsioon
-        function kuvaaSõnumid() {
-            var sõnumiteKonteiner = document.getElementById("sõnumid");
-            sõnumiteKonteiner.innerHTML = "";
 
-            sõnumid.forEach(function (sõnum) {
-                var sõnumiElement = document.createElement("div");
-                sõnumiElement.classList.add("message");
-                sõnumiElement.innerHTML = `<strong>${sõnum.kasutaja}:</strong> ${sõnum.tekst}`;
-                sõnumiteKonteiner.appendChild(sõnumiElement);
-            });
-
-            // Automaatne kerimine allapoole
-            sõnumiteKonteiner.scrollTop = sõnumiteKonteiner.scrollHeight;
-        }
+        // Sündmuskäsitleja lisamine dokumenti laadimisel
+        document.addEventListener("DOMContentLoaded", function () {
+            // Sõnumite kuvamine esialgu
+            kuvaaSõnumid();
+        });
     </script>
 </body>
 </html>
