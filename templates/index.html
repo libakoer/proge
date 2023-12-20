@@ -51,11 +51,30 @@
             e.preventDefault();
             var kasutajaNimi = document.getElementById("kasutajanimi").value;
             var sõnumitekst = document.getElementById("sõnumitekst").value;
+            if (!kasutajaNimi || !sõnumitekst) {
+            alert("Palun täitke kõik väljad");
+            return;
+            }
             sõnumid.push({ kasutaja: kasutajaNimi, tekst: sõnumitekst });
             kuvaaSõnumid();
             document.getElementById("kasutajanimi").value = "";
             document.getElementById("sõnumitekst").value = "";
         });
+        // Sõnumite kuvamise funktsioon
+        function kuvaaSõnumid() {
+            var sõnumiteKonteiner = document.getElementById("sõnumid");
+            sõnumiteKonteiner.innerHTML = "";
+
+            sõnumid.forEach(function (sõnum) {
+                var sõnumiElement = document.createElement("div");
+                sõnumiElement.classList.add("message");
+                sõnumiElement.innerHTML = `<strong>${sõnum.kasutaja}:</strong> ${sõnum.tekst}`;
+                sõnumiteKonteiner.appendChild(sõnumiElement);
+            });
+
+            // Automaatne kerimine allapoole
+            sõnumiteKonteiner.scrollTop = sõnumiteKonteiner.scrollHeight;
+        }
     </script>
 </body>
 </html>
