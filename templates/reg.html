@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>Registreeri:</title>
+  </head>
+  <body>
+    <div class="container" style="text-align: center;">
+      <br>
+      <form action="" method="post">
+        <h1 style="background-color: #0074D9; color: #FFFFFF; font-size: 50px; padding: 10px 20px; border: none; transition: background-color 0.3s;">Kasutajanimi:</h1>
+        <input type="text" placeholder="Kasutajanimi" name="username" value="{{
+          request.form.username }}"size="75"style="height: 50px;font-size: 24px;">
+
+          <br>
+          <h1 style="background-color: #0074D9; color: #FFFFFF; font-size: 50px; padding: 10px 20px; border: none; transition: background-color 0.3s;">Imgur link pildile:</h1>
+         <input type="text" placeholder="IMGUR" name="password" value="{{
+          request.form.password }}" size="75"style="height: 50px;font-size: 24px;">
+          <br><br><br>
+        <input class="btn btn-default" type="submit" value="Registreeri"style="background-color: #0074D9; color: #FFFFFF; font-size: 50px; padding: 10px 20px; border: none; cursor: pointer; transition: background-color 0.3s;">
+      </form>
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+      {% endif %}
+    </div>
+  </body>
+</html>
