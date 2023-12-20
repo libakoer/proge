@@ -42,10 +42,11 @@ def foorum():
         try:
             if "Kasutaja" in session and session["Kasutaja"]!="0":
                 print(session["Kasutaja"])
+                kasutaja1=session["Kasutaja"]
                 session.pop("Kasutaja")
-                return render_template("index.html")
+                return render_template("index.html", kasutaja1=kasutaja1)
             else:
-                print(session["Kasutaja"])
+                kasutaja1=session["kasutaja"]
                 return render_template("keeld.html")
         except:
             return render_template("keeld.html")
