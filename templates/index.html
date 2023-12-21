@@ -163,7 +163,38 @@
     <footer>
         <span>&copy; 2023 Kätryn Varkel ja Artur Tamm</span>
     </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+    <script>
+        var socket = io();
 
+        // Function to append received messages to the message container
+        function appendMessage(message) {
+            var sõnumiteKonteiner = document.getElementById("sõnumid");
+            var sõnumiElement = document.createElement("div");
+            sõnumiElement.classList.add("message");
+            sõnumiElement.innerHTML = `<strong>${message.kasutaja}:</strong> ${message.tekst}`;
+            sõnumiteKonteiner.appendChild(sõnumiElement);
+        }
+
+        // Listen for 'message' event from the server
+        socket.on('message', function (message) {
+            appendMessage(message);
+        });
+
+        // Function to send a message to the server
+        document.getElementById('sõnumiVorm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var sõnumitekst = document.getElementById('sõnumitekst').value;
+            if (!sõnumitekst) {
+                alert('Palun täitke kõik väljad');
+                return;
+            }
+
+            // Emit 'message' event to the server
+            socket.emit('message', { kasutaja: "{{ kasutaja1 }}", tekst: sõnumitekst });
+            document.getElementById('sõnumitekst').value = '';
+        });
+    </script>
     <script>
         // Emoji lisamise funktsioon
         function lisadaEmoji(emoji) {
@@ -211,7 +242,6 @@
             var kasutajaNimi = "{{ kasutaja1 }}";
             var sõnumitekst = document.getElementById("sõnumitekst").value;
             if (!sõnumitekst) {
-                alert("Palun täitke kõik väljad");
                 return;
             }
 

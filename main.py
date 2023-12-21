@@ -2,11 +2,12 @@
 import face_recognition as fr
 from pilt2 import sisselogimine
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 import base64
 from PIL import Image
 import io
 import numpy as np
+messages=[]
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
@@ -37,16 +38,19 @@ def sessions():
 
 def foorum():
     if request.method == 'POST':
-        pass
+        if "Kasutaja" in session and session["Kasutaja"] != "0":
+            kasutaja = session["Kasutaja"]
+            user_message = request.form.get('user_message')
+            if user_message:
+                messages.append({'kasutaja': kasutaja, 'tekst': user_message})
+                socketio.emit('message', {'kasutaja': kasutaja, 'tekst': user_message}, broadcast=True)
+        return redirect(url_for("foorum"))
     else:
         try:
-            if "Kasutaja" in session and session["Kasutaja"]!="0":
-                print(session["Kasutaja"])
-                kasutaja1=session["Kasutaja"]
-                session.pop("Kasutaja")
-                return render_template("index.html", kasutaja1=kasutaja1)
+            if "Kasutaja" in session and session["Kasutaja"] != "0":
+                kasutaja1 = session["Kasutaja"]
+                return render_template("index.html", kasutaja1=kasutaja1, messages=messages)
             else:
-                kasutaja1=session["kasutaja"]
                 return render_template("keeld.html")
         except:
             return render_template("keeld.html")
@@ -83,6 +87,18 @@ def regi():
         if error=="Registreeritud":
             return redirect(url_for("sessions"))
     return render_template('reg.html', error=error)
+@socketio.on('connect')
+def test_connect():
+    print('Client connected')
+
+@socketio.on('disconnect')
+def test_disconnect():
+    print('Client disconnected')
+@socketio.on('message')
+def handle_message(data):
+    messages.append(data)
+    emit('message', data, broadcast=True)
+
 
 
 if __name__ == '__main__':
